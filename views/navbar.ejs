@@ -1,0 +1,46 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="/css/navbar.css">
+
+<!-- Button to toggle the side navigation bar -->
+<button class="m-0 border-0 btn btn-primary btn-fixed-middle-left" id="sidebarToggle" onclick="toggleSidebar();">
+    <i class="fa-solid fa-arrows-turn-right"></i>
+</button>
+
+<!-- Side navigation bar -->
+<nav class="sidebar" id="sidebar">
+<!-- Navigation links -->
+<ul class="navbar-nav flex-column mt-4">
+    <a class="navbar-brand" href="#">BRAND</a>
+    <li class="nav-item">
+    <a class="nav-link active" href="#">Link 1</a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="#">Link 2</a>
+    </li>
+    <!-- Add more navigation links here -->
+</ul>
+</nav>
+<!-- Add your content here -->
+
+<!-- Custom JavaScript -->
+<script>
+// Toggle the side navigation bar
+function toggleSidebar() {
+    var sidebar = document.getElementById("sidebar");
+    sidebar.classList.toggle("active");
+
+    var sidebarToggle = document.getElementById("sidebarToggle");
+    sidebarToggle.style.display = "none";
+}
+
+// Collapse the sidebar when clicking outside
+document.addEventListener("click", function (event) {
+    var sidebar = document.getElementById("sidebar");
+    var sidebarToggle = document.getElementById("sidebarToggle");
+
+    if (!sidebar.contains(event.target) && !sidebarToggle.contains(event.target)) {
+    sidebar.classList.remove("active");
+    sidebarToggle.style.display = "block";
+    }
+});
+</script>

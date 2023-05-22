@@ -1,0 +1,49 @@
+.btn-fixed-middle-left {
+    position: fixed;
+    top: 50%;
+    left: -15px;
+    transform: translateY(-50%);
+    transform: scaleY(250%) scaleX(200%);
+    padding-right: 0.4% !important;
+    z-index: 9999;
+    background-color: #222222 !important;
+    border-radius: 20% !important;
+}
+
+
+.btn-fixed-top-left {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 9999;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    width: 250px;
+    height: 100vh;
+    background-color: #222222;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    border-top-right-radius: 3%;
+    border-bottom-right-radius: 3%;
+    z-index: 999;
+}
+
+.sidebar.active {
+    transform: translateX(0);
+}
+
+.nav-item {
+    color: white !important;
+    padding-left: 10%;
+}
+
+.navbar-brand {
+    color: white !important;
+    padding-left: 10%;
+    font-weight: bold !important;
+    font-size: 150% !important;
+}

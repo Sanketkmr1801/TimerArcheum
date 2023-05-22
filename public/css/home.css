@@ -1,0 +1,184 @@
+.card-red {
+    border: 2px solid red !important
+}
+  
+.card-green {
+    border: 2px solid green !important;
+}
+
+.delete-button {
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: red !important;
+    font-weight: bold;
+    font-size: 1.2rem !important;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.update-button {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: #007bff !important;
+    font-weight: bold;
+    font-size: 1.4rem !important;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 1;
+}
+
+.fixed-top-right {
+    position: fixed;
+    top: 0 !important;
+    right: 1% !important;
+    z-index: 9999 !important;
+    font-size: 4rem !important;
+    color: green !important;
+  }
+
+.white-text {
+    color: white !important;
+}
+
+body {
+    overflow-y: scroll !important;
+}
+
+.landBorder {
+    border: 2px solid darkgoldenrod;
+    padding: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    border-radius: 0.8%;
+}
+  
+.houseBorder {
+    border: 1px solid darkgoldenrod;
+    padding: 5px;
+    margin-bottom: 5px;
+    position: relative;
+    border-radius: 1%;
+
+}
+
+.cross {
+    position: absolute;
+    top: 0;
+    right: 1%;
+    padding: 0.25em !important;
+    font-size: 1.5em !important;
+    cursor: pointer;
+    color: red !important;
+    background: none;
+}
+
+.refresh-house {
+    position: absolute;
+    top: 0%;
+    right: 50%;
+    padding: 0em 0.25em 0em 0.25em !important;
+    margin: 0em 0em 0em 0em !important;
+    font-size: 2em !important;
+    cursor: pointer;
+    color: #007bff !important;
+    background: none;
+}
+
+.cover-div {
+    display: block;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border-radius: 5%;
+    border: 1px solid white;
+    font-size: 2.5rem !important;
+    color: white;
+    background-image: linear-gradient(45deg, orange, indigo, violet, red);
+    background-size: 200% 200%;
+    background-position: 0% 0%;
+    transition: background-position 0.1s ease-in-out;
+}
+
+.cover-div:hover {
+    background-position: 100% 100%;
+}
+
+.benchRadio {
+    background-color: #007bff;
+}
+
+.resourceBtn {
+    width: 100%;
+    height: 33%;    
+    border-radius: 5%;
+    border: 1px solid yellowgreen;
+    background-color: #f5f5f5;
+}
+
+.radioDiv {
+    border: 1px solid yellowgreen !important;
+    border-radius: 5%;
+}
+
+body {
+    background-color: #EEF7FE !important;
+}
+
+.addLandBtn {
+    background-color: #222222 !important;
+}
+
+.bench {
+    font-size: 70%;
+    font-weight: bold;
+}
+
+.remainingTime {
+    font-size: 80%;
+    font-weight: bold;
+}
+
+.duration {
+    font-size: 80%;
+    font-weight: bold;
+}
+
+.house {
+    font-size: 150%;
+    font-weight: bold;
+}
+
+.land {
+    font-size: 150%;
+    font-weight: bold;
+}
+
+.borderBottom {
+    border-bottom: 2px solid brown !important;
+}

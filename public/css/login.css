@@ -1,0 +1,24 @@
+body {
+    background-color: #9DB2BF !important;
+}
+
+.center-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 120vh;
+}
+
+.login-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #27374D;
+    color: #fff;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    border-radius: 5%;
+}
+
+.login-link:hover {
+    background-color: #0056b3;
+}

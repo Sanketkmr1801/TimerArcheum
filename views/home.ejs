@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archeum Timers</title>
+    <link rel="stylesheet" href="/css/home.css">
+</head>
+<body>
+    <%- include('./navbar') %>
+
+    <!-- Add the "+" button to trigger the modal -->
+    <button id="modalTimerBtn" class="btn fixed-top-right" data-bs-toggle="modal" data-bs-target="#timerModal">+</button>
+    <div class="container w-100">
+    <div class="container mb-3">
+      <% if (user && user.email) { %>
+        <div class="alert alert-success">
+          Welcome, <%= user.email %>!
+        </div>
+      <% } %>
+    
+      <form action="/addLand" method="POST" class="mt-4">
+        <div class="mb-3">
+          <label for="land" class="form-label">Land</label>
+          <input type="text" name="land" id="land" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary addLandBtn">Add Land</button>
+      </form>
+    </div>
+    <div class="container">
+      <% for (let land in arrangedTimers) { %>
+        <div class="landBorder">
+        <form action="/deleteLand" method="POST">
+          <input type="text" name="land" value="<%= land %>" style="display:none">
+          <button class="cross btn">&#10005;</button>
+        </form>
+        <div class="row mb-4">
+          <div class="col borderBottom">
+            <h4 class="land"><%= land %></h4>
+          </div>
+        </div>
+        <% if(JSON.stringify(arrangedTimers[land]) === "{}") { %>
+          <div class="houseOptions">
+            <form action="/addHouse" method="POST">
+              <input type="text" name="land" value="<%= land %>" style="display: none;">
+              <% for(let house in houses) { %>
+                <button type="submit" name="house" value="<%= house %>"><%= house %></button>
+              <% } %>
+            </form>
+          </div>
+        <% } %>
+        <% for (let house in arrangedTimers[land]) { %>
+          <div class="houseBorder">
+            <form action="/deleteHouse" method="POST">
+              <input type="text" name="house" value="<%= house %>" style="display:none;">
+              <input type="text" name="land" value="<%= land %>" style="display:none;">
+              <button class="cross btn">&#10005;</button>
+            </form>
+            <form action="/updateHouse" method="POST">
+              <button class="refresh-house btn">&#10227;</button>
+              <input type="text" name="house" value="<%= house %>" style="display:none;">
+              <input type="text" name="land" value="<%= land %>" style="display:none;">
+              <input type="text" name="duration" value="<%= arrangedTimers["duration"] %>" style="display:none;">
+            </form>
+          <div class="row mb-4">
+            <div class="col">
+              <h5 class="house"><%= house.toUpperCase() %></h5>
+            </div>
+          </div>
+            <% const addTimerFormHouses = {
+              "tent": ["basic"],
+              "small": ["basic", "green"],
+              "medium": ["basic", "green", "blue"],
+              "large": ["basic", "green", "blue", "arcane"],
+              "manor": ["basic", "green", "blue", "arcane", "heroic"]
+          } %>
+
+            <% const resourceInput = {
+                "basic": [130, 250, 500],
+                "green": [200, 400, 600],
+                "blue": [300, 500, 700],
+                "arcane": [400, 600, 800],
+                "heroic": [500, 700, 900]                                                                            
+            } %>
+            <div class="row">
+              <div class="col-md-1 d-flex mb-3">
+                <button class="cover-div" type="button" data-bs-toggle="collapse" data-bs-target=".addTimerCollapse<%= land %>" aria-expanded="false" aria-controls="addCollapse">+</button>
+              </div>
+              <div class="col-md-1 mb-3 collapse addTimerCollapse<%= land %>  radioDiv">
+                <form action="/addTimer" method="POST" id="addTimerForm<%= land %>">
+                <div class="form-check addTimerFormDiv<%= land %>">
+                <% for(let i = 0; i < addTimerFormHouses[house].length; i++) { %>
+                 <% let bench = addTimerFormHouses[house][i] %>
+                  <div>
+                    <input onchange="updateAddTimerButton(`<%= land %>`)" class="form-check-input benchRadio" type="radio" name="bench" value="<%= bench %>" id="<%= bench + land + house + i %>" style="background-color: <%= benchColors[bench] %>;">
+                    <label name="bench" class="form-check-label" for="<%= bench + land + house + i %>" style="color: <%= benchColors[bench] %>; font-weight: bold"><%= bench %></label>
+
+                  </div>
+                  <% } %>
+                </div>
+                    <input type="text" name="house" style="display:none" value="<%= house %>">
+                    <input type="text" name="land" style="display:none" value="<%= land %>">
+                </form>
+              </div>
+              <div class="flex-column col-md-1 mb-3 collapse addTimerCollapse<%= land %> addTimerButtonDiv<%= land %>">
+                
+              </div>
+
+            <% for (let timer of arrangedTimers[land][house]) { %>
+              <div class="col-md-1">
+                <div class="card card-green mb-3 position-relative">
+                  <div class="overlay"></div>
+                  <div class="card-header white-text bench d-flex align-items-center justify-content-center" style="background-color:<%= benchColors[Object.keys(benchPriority)[timer.bench]] %>">
+                    <%= Object.keys(benchPriority)[timer["bench"]].toUpperCase() %>
+                    <form action="/updateTimer" method="POST">
+                      <input type="text" name="timerID" value="<%= timer["_id"] %>" style="display:none">
+                      <input type="text" name="duration" value="<%= timer["duration"] %>" style="display:none">
+                      <button class="btn update-button">&#10227;</button>
+                    </form>
+                    <form action="/deleteTimer" method="POST">
+                      <input type="text" name="timerID" value="<%= timer["_id"] %>" style="display:none">
+                      <button class="btn delete-button">&#10005;</button>
+                    </form>
+                  </div>
+                  <div class="card-body">
+                    <div class="duration"><%= timer["duration"] %> H</div>
+                    <div class="startTime"><%= timer["startTime"] %></div>
+                    <div class="endTime"><%= timer["endTime"] %></div>
+                    <div class="remainingTime"><%= (timer["endTime"] - timer["startTime"]) / (60 * 1000) %></div>
+                  </div>
+                </div>
+              </div>
+            <% } %>
+          </div>
+        </div>
+        <% } %>
+      </div>
+      <% } %>
+    </div>
+      
+<!-- Modal -->
+
+<% if (isAddTimer === '1') { %>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const timerModal = new bootstrap.Modal(document.getElementById('timerModal'));
+      timerModal.show();
+      window.history.replaceState({}, document.title, window.location.pathname);
+    });
+  </script>
+<% } %>
+
+<div class="modal fade" id="timerModal" tabindex="-1" aria-labelledby="timerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="timerModalLabel">Add Timer</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form action="/addTimer" method="POST">
+            <input type="text" name="isAddTimer" value="1" style="display:none">
+            <div class="mb-3">
+              <label for="land" class="form-label">Land Input</label>
+              <select name="land" id="land" class="form-select">
+                <% for(let land in lands) { %>
+                  <option value="<%= land %>"><%= land %></option>
+                <% } %>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="house" class="form-label">House Input</label>
+              <select name="house" id="house" class="form-select" onchange="updateBenches()">
+                <% for(let house in houses) { %>
+                <option value="<%= house %>"><%= house %></option>
+                <% } %>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="bench" class="form-label">Bench Input</label>
+              <select name="bench" id="bench" class="form-select" onchange="updateResources()">
+                <!-- populate dynamically -->
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="resource" class="form-label">Resource Input</label>
+              <select name="resource" id="resource" class="form-select">
+                <!-- populate dynamically -->
+              </select>
+            </div>
+            <button class="btn btn-primary" type="submit">Add Timer</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <a href="/logout">LOGOUT</a>
+</div>
+  <script src="/js/home.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+</body>
+</html>
