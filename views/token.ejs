@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet Link</title>
+    <link rel="stylesheet" href="/css/token.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <%- include('./navbar') %>
+   
+
+    <div class="container">
+        <form class="token-form" method="POST" action="#">
+            <div class="input-group mb-3">
+                <input value="<%= walletID %>" name="walletID" type="text" id="walletID" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="searchButton">
+                <button class="btn btn-primary searchButton" type="button" id="searchButton">Search</button>
+            </div>
+        </form>
+        
+        <div class="table-container">
+            <table class="table">
+                <!-- table content -->
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Symbol</th>
+                            <th>Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tokenTableBody"></tbody>
+            </table>
+        </div>
+
+        <div class="button-container">
+            <button class="circle-button left-button"><i class="fa-solid fa-chevron-left"></i></button>
+            <input type="text" class="circle-input">
+            <button class="circle-button right-button"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/js/token.js"></script>
+</body>
+</html>

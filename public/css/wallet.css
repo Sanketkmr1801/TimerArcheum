@@ -1,0 +1,23 @@
+.wallet-form {
+    width: 80%;
+    margin: 10%;
+}
+
+body {
+    background-color: #EEF7FE !important;
+}
+
+.searchButton {
+    background-color: #222222 !important;
+}
+
+.card {
+    width: fit-content; /* Set the width to fit the content */
+    margin: 1% !important; /* Add margin between cards */
+}
+
+.searchResult {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center; /* Center vertically */
+}

@@ -6,6 +6,10 @@
     border: 2px solid green !important;
 }
 
+.card-body {
+    padding-left: 10% !important;
+}
+
 .delete-button {
     position: absolute;
     top: 80%;
@@ -78,7 +82,7 @@ body {
 }
   
 .houseBorder {
-    border: 1px solid darkgoldenrod;
+    border: 1px solid white;
     padding: 5px;
     margin-bottom: 5px;
     position: relative;

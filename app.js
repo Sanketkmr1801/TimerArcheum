@@ -12,7 +12,7 @@ const homeRoutes = require('./routes/home');
 const landRoutes = require('./routes/land');
 const houseRoutes = require('./routes/house')
 const timerRoutes = require('./routes/timer')
-
+const walletRoutes = require("./routes/walletRoute")
 
 houses = {
     "tent": ["basic"],
@@ -105,6 +105,7 @@ app.use("/", homeRoutes)
 app.use("/", timerRoutes)
 app.use("/", landRoutes)
 app.use("/", houseRoutes)
+app.use("/", walletRoutes)
 
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet Link</title>
+    <link rel="stylesheet" href="/css/wallet.css">
+</head>
+<body>
+    <%- include('./navbar') %>
+   
+
+    <div class="container">
+        <form class="wallet-form" method="POST" action="#">
+            <div class="input-group mb-3">
+                <input value="<%= walletID %>" name="walletID" type="text" id="walletID" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="searchButton">
+                <button class="btn btn-primary searchButton" type="button" id="searchButton">Search</button>
+            </div>
+        </form>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="searchResult d-flex flex-wrap">
+                    
+                </div>
+            </div> 
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/js/wallet.js"></script>
+</body>
+</html>
