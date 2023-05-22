@@ -1,7 +1,20 @@
 const searchButton = document.querySelector(".searchButton")
 const walletInput = document.querySelector("#walletID")
 const tokenTableBody = document.getElementById("tokenTableBody");
-let transactionPageNo = 1
+transactionPageNo = 1
+const leftButton = document.querySelector(".left-button")
+const rightButton = document.querySelector(".right-button")
+const circleInput = document.querySelector(".circle-input")
+walletID = walletInput.value;
+maxTransactionPage = 10 
+
+if(transactionPageNo <= 1) {
+    leftButton.disabled = true
+} else {
+    leftButton.disabled = false
+}
+circleInput.value = transactionPageNo
+
 // Truncate string to the specified length
 function truncateString(str, maxLength, key, ignoreList) {
     ignoreList = new Set(["name", "symbol", "blockNumber", "ercType", "blockUtcTimestamp", "amountOrTokenId"])
@@ -35,11 +48,50 @@ async function getTokenTransactionData(walletID, pageNo) {
     })
 }
 
-searchButton.addEventListener('click', async p => {
-    console.log("workings")
-    const walletID = walletInput.value;
+leftButton.addEventListener('click', () => {
+
+    if(transactionPageNo > 1) transactionPageNo -= 1
+
+    if(transactionPageNo <= 1) {
+        leftButton.disabled = true
+    } else {
+        leftButton.disabled = false
+    }
+
+    if(transactionPageNo >= maxTransactionPage) {
+        rightButton.disabled = true
+    } else {
+        rightButton.disabled = false
+    }
+
+    circleInput.value = transactionPageNo
+
+})
+
+rightButton.addEventListener('click', () => {
+    if(transactionPageNo < maxTransactionPage) {
+        transactionPageNo += 1
+    }
+    
+    if(transactionPageNo >= maxTransactionPage) {
+        rightButton.disabled = true
+    } else {
+        rightButton.disabled = false
+    }
+
+    if(transactionPageNo <= 1) {
+        leftButton.disabled = true
+    } else {
+        leftButton.disabled = false
+    }
+
+    circleInput.value = transactionPageNo
+})
+
+async function fetchTokenTransaction() {
     const transactionData = await getTokenTransactionData(walletID, transactionPageNo);
     console.log(transactionData);
+    maxTransactionPage = transactionData.totalPages
     const oldTable = document.querySelector(".transactionTable")
     if(oldTable) oldTable.remove()
     const keyMap = {
@@ -83,14 +135,48 @@ searchButton.addEventListener('click', async p => {
                     const cell = document.createElement('td');
                     const truncatedValue = truncateString(transaction[key], 5, key)
                     let value = transaction[key]
+
+                    if(key.toLowerCase() == "toaddr") {
+                        if(transaction[key] == walletID) {
+                            row.classList.add("green-background")
+                        } else {
+                            row.classList.add("red-background")
+                        }
+                    }
+
                     if(key.toLowerCase() == "symbol") {
                         const imgIcon = document.createElement('img')
                         imgIcon.src = transaction["iconImage"]
                         cell.appendChild(imgIcon)
                     }
                     cell.innerHTML += truncatedValue;
-                    cell.setAttribute('title', value);
-                    cell.addEventListener('click', () => copyToClipboard(value)); // Add click event listener
+                    cell.setAttribute('title', value); 
+                    if(key.toLowerCase() == "amountortokenid") {
+                        if(row.classList.contains("red-background")) {
+                            cell.textContent = "-" + cell.textContent
+                        }
+                    }
+                    cell.addEventListener('click', () => {
+                        if (cell.classList.contains('copied')) {
+                            return;
+                        }
+
+                        const originalCellHTML = cell.innerHTML
+                          // Add copied class
+                        cell.classList.add('copied');
+                        
+                        // Set "Copied" text
+                        cell.innerHTML = 'copied';
+                    
+                        copyToClipboard(value)
+
+                          // Reset the cell after 1 second
+                        setTimeout(() => {
+                            cell.classList.remove('copied');
+                            cell.innerHTML = originalCellHTML;
+                        }, 500);
+
+                    })
                     row.appendChild(cell);
                 }
             });
@@ -105,10 +191,14 @@ searchButton.addEventListener('click', async p => {
     // Append the new table below the existing table
     const tableContainer = document.querySelector('.table-container');
     tableContainer.appendChild(newTable);
-})
+}
+
+searchButton.addEventListener('click', fetchTokenTransaction)
+leftButton.addEventListener('click', fetchTokenTransaction)
+rightButton.addEventListener('click', fetchTokenTransaction)
+
 
 searchButton.addEventListener('click', async p => {
-    const walletID = walletInput.value;
     const tokenData = await getTokenData(walletID);
     console.log(tokenData);
     // Clear previous table data
@@ -145,7 +235,7 @@ searchButton.addEventListener('click', async p => {
         }
     });
 })
-// Copy value to clipboard
+
 // Copy value to clipboard
 function copyToClipboard(value) {
     navigator.clipboard.writeText(value)
