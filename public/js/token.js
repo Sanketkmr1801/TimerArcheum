@@ -5,7 +5,6 @@ transactionPageNo = 1
 const leftButton = document.querySelector(".left-button")
 const rightButton = document.querySelector(".right-button")
 const circleInput = document.querySelector(".circle-input")
-walletID = walletInput.value;
 maxTransactionPage = 10 
 
 if(transactionPageNo <= 1) {
@@ -30,7 +29,7 @@ function truncateString(str, maxLength, key, ignoreList) {
 
 async function getTokenData(walletID) {
     url = `
-    https://scope.boraportal.com/api/addresses/${walletID}/token-balances/list?ercType=ERC20
+    https://scope.boraportal.com/api/addresses/${walletID.toLowerCase()}/token-balances/list?ercType=ERC20
     `
     return axios.get(url)
     .then(res => {
@@ -40,7 +39,7 @@ async function getTokenData(walletID) {
 
 async function getTokenTransactionData(walletID, pageNo) {
     url = `
-    https://scope.boraportal.com/api/addresses/${walletID}/token-transfers?ercType=ERC20&pageSize=10&pageNum=${pageNo}
+    https://scope.boraportal.com/api/addresses/${walletID.toLowerCase()}/token-transfers?ercType=ERC20&pageSize=10&pageNum=${pageNo}
     `
     return axios.get(url)
     .then(res => {
@@ -89,6 +88,7 @@ rightButton.addEventListener('click', () => {
 })
 
 async function fetchTokenTransaction() {
+    let walletID = walletInput.value;
     const transactionData = await getTokenTransactionData(walletID, transactionPageNo);
     console.log(transactionData);
     maxTransactionPage = transactionData.totalPages
@@ -193,12 +193,8 @@ async function fetchTokenTransaction() {
     tableContainer.appendChild(newTable);
 }
 
-searchButton.addEventListener('click', fetchTokenTransaction)
-leftButton.addEventListener('click', fetchTokenTransaction)
-rightButton.addEventListener('click', fetchTokenTransaction)
-
-
-searchButton.addEventListener('click', async p => {
+async function fetchTokenInfo() {
+    let walletID = walletInput.value;
     const tokenData = await getTokenData(walletID);
     console.log(tokenData);
     // Clear previous table data
@@ -234,7 +230,7 @@ searchButton.addEventListener('click', async p => {
             tokenTableBody.appendChild(row);
         }
     });
-})
+}
 
 // Copy value to clipboard
 function copyToClipboard(value) {
@@ -246,3 +242,12 @@ function copyToClipboard(value) {
             console.error('Unable to copy value to clipboard:', err);
         });
 }
+searchButton.addEventListener('click', fetchTokenTransaction)
+leftButton.addEventListener('click', fetchTokenTransaction)
+rightButton.addEventListener('click', fetchTokenTransaction)
+
+
+searchButton.addEventListener('click', fetchTokenInfo)
+
+fetchTokenInfo()
+fetchTokenTransaction()

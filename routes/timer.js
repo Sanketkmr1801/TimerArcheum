@@ -69,7 +69,7 @@ router.post("/updateTimer", ensureAuthenticated, (req, res) => {
         {$set: {startTime: Date.now(), endTime: Date.now() + duration * 60 * 1000}}
     ).catch(err => {
         console.log(err)
-        res.render("error")
+        res.render("error", {err})
     })
     res.redirect("/home")
 })

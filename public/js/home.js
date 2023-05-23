@@ -7,10 +7,10 @@ houses = {
 }
 resourceInput = {
     "basic": [130, 250, 500],
-    "green": [200, 400, 600],
-    "blue": [300, 500, 700],
-    "arcane": [400, 600, 800],
-    "heroic": [500, 700, 900]                                                                            
+    "green": [500, 1000, 2020],
+    "blue": [1000, 2000, 4000],
+    "arcane": [1750, 3500, 6960],
+    "heroic": [3160, 6320, 12640]
 }
 benchColors = {
     "basic": "grey",
@@ -21,7 +21,12 @@ benchColors = {
 }
 
 function updateAddTimerButton(land) {
-const radios = document.querySelector(`.addTimerFormDiv${land}`).querySelectorAll("input")
+let radios = document.querySelector(`.addTimerFormDiv${land}`)
+if(radios) {
+    radios = radios.querySelectorAll("input")
+} else {
+    return
+}
 const radioLabels = document.querySelector(`.addTimerFormDiv${land}`).querySelectorAll("label")
 const buttonContainer = document.querySelector(`.addTimerButtonDiv${land}`)
 let selectedRadio = radios[0]

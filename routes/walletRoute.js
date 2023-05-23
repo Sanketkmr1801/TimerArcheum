@@ -9,24 +9,63 @@ const mongoose = require("mongoose")
 
 
 function ensureAuthenticated(req, res, next) {
-    // if (req.isAuthenticated()) {
+    if (req.isAuthenticated()) {
         return next();
-    // }
-    // res.redirect('/login');
+    }
+    res.redirect('/login');
 }
 
-router.get("/wallet", ensureAuthenticated, (req, res) => {
-    const walletID = "0x6bf8a469c92999fda818a25d79960475a9ad942e"
-    res.render("wallet", {walletID})
+router.get("/land", ensureAuthenticated, async (req, res) => {
+    const email = req.user.email
+
+    const user = await User.findOne({email: email})
+    if(user.wallet) {
+        walletID = user.wallet
+        res.render("land", {walletID})
+        return
+    }
+
+    res.render("/link")
 })
 
-router.post("/wallet", ensureAuthenticated, (req, res) => {
+router.post("/land", ensureAuthenticated, (req, res) => {
     console.log(req.body)
 })
 
-router.get("/token", ensureAuthenticated, (req, res) => {
-    const walletID = "0x6bf8a469c92999fda818a25d79960475a9ad942e"
-    res.render("token", {walletID})
+router.get("/token", ensureAuthenticated, async (req, res) => {
+    const email = req.user.email
+
+    const user = await User.findOne({email: email})
+    if(user.wallet) {
+        walletID = user.wallet
+        res.render("token", {walletID})
+        return
+    }
+
+    res.render("/link")
 })
 
+router.get("/link", ensureAuthenticated, async (req, res) => {
+    const email = req.user.email
+
+    const user = await User.findOne({email: email})
+    if(user.wallet) {
+        walletID = user.wallet
+        res.render("link", {walletID})
+        return
+    }
+    res.render("link")
+})
+
+router.post("/link", ensureAuthenticated, async (req, res) => {
+    const email = req.user.email
+    const walletID = req.body.walletID
+    await User.updateOne(
+        {email: email},
+        {$set: {wallet: walletID}}    
+    ).catch(err => {
+        res.render("error", {err})
+    })
+    res.redirect("link")
+})
 module.exports = router

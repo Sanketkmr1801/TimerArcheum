@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link Wallet</title>
+    <link rel="stylesheet" href="/css/land.css">
+</head>
+<body>
+    <%- include('./navbar') %>
+   
+
+    <div class="container">
+        <form class="wallet-form" method="POST" action="/link">
+            <div class="input-group mb-3">
+                <input value="<%= walletID %>" name="walletID" type="text" id="walletID" class="form-control" placeholder="Enter Your Wallet Address" aria-label="Search" aria-describedby="searchButton">
+                <button class="btn btn-primary searchButton" type="submit" id="searchButton">Update</button>
+            </div>
+        </form>
+    
+    </div>
+</body>
+</html>

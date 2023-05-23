@@ -1,0 +1,77 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="/css/statsbar.css">
+<!-- Button to toggle the side navigation bar -->
+<button class="m-0 border-0 btn btn-primary btn-fixed-middle-right" id="statsBarToggle" onclick="toggleStatsBar();">
+    <i class="fa-solid fa-arrows-turn-right"></i>
+</button>
+
+<!-- Side navigation bar (Stats Bar) -->
+<nav class="sidebar stats-bar" id="statsBar">
+    <% 
+        // Get the current date
+        var currentDate = new Date();
+
+        // Get the current month and year
+        var currentMonth = currentDate.getMonth();
+        var currentYear = currentDate.getFullYear();
+
+        // Create a new date object for the next month's first day
+        var nextMonthDate = new Date(currentYear, currentMonth + 1, 1);
+
+        // Set the date to the last day of the current month
+        nextMonthDate.setDate(nextMonthDate.getDate() - 1);
+
+        // Get the day of the month, which corresponds to the total number of days in the current month
+        var daysInMonth = nextMonthDate.getDate();
+
+    %>
+    <!-- Navigation links -->
+    <ul class="navbar-nav flex-column mt-4">
+        <a class="navbar-brand" href="/home">Stats</a>
+        <div class="statDiv mb-3">
+            <li class="stat-item">
+                <%= totalProduceDaily / 1000 %>K Archeum / Day
+            </li>
+            <li class="stat-item">
+                <%= Math.round(totalProduceDaily * archeumToBsltRate * 1000) / 1000 %> BSLT = 
+                <span class="dollar"></span> $ / Day
+            </li>
+            <input type="text" value="<%= totalProduceDaily * archeumToBsltRate %>" style="display:none" class="bslt">
+        </div>
+        <div class="statDiv mb-3">
+            <li class="stat-item">
+                <%= Math.round(totalProduceDaily / 1000 * 7 * 1000) / 1000 %>K Archeum / Week
+            </li>
+            <li class="stat-item">
+                <%= totalProduceDaily * 7 * archeumToBsltRate %> BSLT = 
+                <span class="dollar"></span> $ / Week
+            </li>
+            <input type="text" value="<%= totalProduceDaily * 7 * archeumToBsltRate %>" style="display:none" class="bslt">
+
+        </div>
+        <div class="statDiv mb-3">
+            <li class="stat-item">
+                <%= Math.round((totalProduceDaily / 1000 * daysInMonth) * 100) / 100 %>K Archeum / Month
+            </li>
+            <li class="stat-item">
+                <%= Math.round((totalProduceDaily * daysInMonth) * 100) / 100 * archeumToBsltRate %> BSLT = 
+                <span class="dollar"></span> $ / Month
+            </li>
+            <input type="text" value="<%= Math.round((totalProduceDaily * daysInMonth) * 100) / 100 * archeumToBsltRate %>" style="display:none" class="bslt">
+
+        </div>
+        <form action="#" class="d-flex justify-content-center align-items-center">
+            <input type="text" class="circle-input text-center" value="0.25">
+        </form>
+        <div class="statDiv mb-3">
+            <li class="stat-item">
+                Labor Per Day = <%= Math.round(totalProduceDaily / 2) / 1000 %> K
+            </li>
+        </div>
+        <!-- Add more navigation links here -->
+    </ul>
+</nav>
+<!-- Add your content here -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="/js/statsbar.js"></script>
+

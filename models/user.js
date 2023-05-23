@@ -10,6 +10,9 @@ const userSchema = new mongoose.Schema({
     land: {
         type: Object,
         default: {} // Set as an empty object
+    },
+    wallet: {
+        type: String,
     }
     // Other user data fields
 });

@@ -23,11 +23,11 @@ houses = {
 }
 
 benchColors = {
-    "basic": "grey",
-    "green": "green",
-    "blue": "blue",
-    "arcane": "purple",
-    "heroic": "#c2b208"  
+    "basic": "#707070",
+    "green": "#5CBF9B",
+    "blue": "#5499C7",
+    "arcane": "#A569BD",
+    "heroic": "#F9C74F"  
 }
 
 benchPriority = {
@@ -40,10 +40,10 @@ benchPriority = {
 
 resourceInput = {
     "basic": [130, 250, 500],
-    "green": [200, 400, 600],
-    "blue": [300, 500, 700],
-    "arcane": [400, 600, 800],
-    "heroic": [500, 700, 900]                                                                            
+    "green": [500, 1000, 2020],
+    "blue": [1000, 2000, 4000],
+    "arcane": [1750, 3500, 6960],
+    "heroic": [3160, 6320, 12640]
 }
 mongoose.connect('mongodb://127.0.0.1:27017/ArcheumTimer', {
     useNewUrlParser: true,

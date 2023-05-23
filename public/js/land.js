@@ -4,18 +4,21 @@ const walletInput = document.querySelector("#walletID")
 
 async function getLandData(walletID) {
     url = `
-    https://api.debank.com/collection/nft_list?q=${walletID}&limit=20&id=0x56d23f924cd526e5590ed94193a892e913e38079&chain_id=matic&order_by=-value&traits=%5B%5D
+    https://api.debank.com/collection/nft_list?q=${walletID.toLowerCase()}&limit=20&id=0x56d23f924cd526e5590ed94193a892e913e38079&chain_id=matic&order_by=-value&traits=%5B%5D
     `
+    
+
     return axios.get(url)
     .then(res => {
         return res.data.data
     })
 }
 
-searchButton.addEventListener('click', async p => {
+async function updateLandValues() {
+    searchResultDiv.innerHTML = ""
     const walletID = walletInput.value
     const landData = await getLandData(walletID)
-    // console.log(landData)
+    console.log(landData)
 
     const nft_list = landData["nft_list"]
     // Iterate over each NFT in the nft_list
@@ -64,4 +67,8 @@ searchButton.addEventListener('click', async p => {
     // Append the card to the searchResult div
     searchResultDiv.appendChild(card);
     })
-})
+}
+
+searchButton.addEventListener('click', updateLandValues)
+
+updateLandValues()

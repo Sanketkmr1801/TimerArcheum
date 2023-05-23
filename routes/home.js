@@ -7,6 +7,8 @@ const User = require("../models/user")
 const Timer = require("../models/timer")
 const mongoose = require("mongoose")
 
+const produceInput = [500, 2020, 4000, 6960, 12640]
+
 function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
@@ -32,6 +34,7 @@ router.get("/logout", (req, res) => {
 
 router.get("/home", ensureAuthenticated, async (req, res) => {
     try {
+        let totalProduceDaily = 0
         console.log("FINDING TIMERS FOR THE EMAIL " + req.user.email);
         const isAddTimer = req.query.addTimer;
         const email = req.user.email;
@@ -60,10 +63,13 @@ router.get("/home", ensureAuthenticated, async (req, res) => {
             }
             if (!arrangedTimers[land][house]) {
                 arrangedTimers[land][house] = [timer];
+                totalProduceDaily += produceInput[timer.bench]
             } else {
                 arrangedTimers[land][house].push(timer);
+                totalProduceDaily += produceInput[timer.bench]
             }
         }
+        const archeumToBsltRate = 0.006
         res.render("home", {
           houses,
           arrangedTimers,
@@ -71,7 +77,9 @@ router.get("/home", ensureAuthenticated, async (req, res) => {
           benchColors,
           isAddTimer,
           lands: user.land,
-          benchPriority
+          benchPriority,
+          totalProduceDaily,
+          archeumToBsltRate
         });
       } catch (error) {
         console.error(error);
