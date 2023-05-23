@@ -13,12 +13,17 @@ resourceInput = {
     "heroic": [3160, 6320, 12640]
 }
 benchColors = {
-    "basic": "grey",
-    "green": "green",
-    "blue": "blue",
-    "arcane": "purple",
-    "heroic": "#d4c30d"  
-}
+    "basic": "#707070",
+    "green": "#5CBF9B",
+    "blue": "#5499C7",
+    "arcane": "#A569BD",
+    "heroic": "#F9C74F",
+    "intensifiedbasic": "#404040",
+    "intensifiedgreen": "#46A681",
+    "intensifiedblue": "#4688B2",
+    "intensifiedarcane": "#853F7C",
+    "intensifiedheroic": "#E1A82D"
+  }
 
 function updateAddTimerButton(land) {
 let radios = document.querySelector(`.addTimerFormDiv${land}`)
@@ -147,15 +152,26 @@ function updateResources() {
 // Function to update and remove expired timers
 function updateTimers() {
     let currentTime = Date.now();
+    let durations = document.querySelectorAll(".duration")
     let startTimes = document.querySelectorAll(".startTime")
     let remainingTimes = document.querySelectorAll(".remainingTime")
     let endTimes = document.querySelectorAll(".endTime")
     for(let i = 0; i < remainingTimes.length; i++) {
+        let card = remainingTimes[i].parentElement.parentElement
         let startTime = Number(startTimes[i].textContent)
         let remainingTime = (currentTime - startTime) / (1000)
+
         let seconds = Math.floor(remainingTime % 60)
         let minutes = Math.floor((remainingTime % 3600) / 60)
         let hours = Math.floor(remainingTime / 3600)
+        if(card) {
+            let duration = durations[i].textContent.split(" ")[0]
+            console.log(remainingTime, duration) 
+            if(hours >= duration) {
+                card.classList.remove("card-green")
+                card.classList.add("card-red")
+            }
+        }
         // console.log(i, startTime, currentTime)
         remainingTimes[i].outerHTML = `<div class="remainingTime">${hours}:${minutes}:${seconds}</div>`
     }

@@ -27,8 +27,13 @@ benchColors = {
     "green": "#5CBF9B",
     "blue": "#5499C7",
     "arcane": "#A569BD",
-    "heroic": "#F9C74F"  
-}
+    "heroic": "#F9C74F",
+    "intensifiedbasic": "#404040",
+    "intensifiedgreen": "#46A681",
+    "intensifiedblue": "#4688B2",
+    "intensifiedarcane": "#853F7C",
+    "intensifiedheroic": "#E1A82D"
+  }
 
 benchPriority = {
     "basic": 0,

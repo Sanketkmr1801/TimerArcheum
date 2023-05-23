@@ -161,6 +161,7 @@ body {
 .radioDiv {
     border: 1px solid #9DB2BF !important;
     border-radius: 5%;
+    font-size: 85% !important;
 }
 
 body {

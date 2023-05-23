@@ -87,9 +87,8 @@
                 <% for(let i = 0; i < addTimerFormHouses[house].length; i++) { %>
                  <% let bench = addTimerFormHouses[house][i] %>
                   <div>
-                    <input onchange="updateAddTimerButton(`<%= land %>`)" class="form-check-input benchRadio" type="radio" name="bench" value="<%= bench %>" id="<%= bench + land + house + i %>" style="background-color: <%= benchColors[bench] %>;">
-                    <label name="bench" class="form-check-label" for="<%= bench + land + house + i %>" style="color: <%= benchColors[bench] %>; font-weight: bold"><%= bench %></label>
-
+                    <input onchange="updateAddTimerButton(`<%= land %>`)" class="form-check-input benchRadio" type="radio" name="bench" value="<%= bench %>" id="<%= bench + land + house + i %>" style="background-color: <%= benchColors[`intensified${bench}`] %>;">
+                    <label name="bench" class="form-check-label" for="<%= bench + land + house + i %>" style="color: <%= benchColors[`intensified${bench}`] %>; font-weight: bold"><%= bench %></label>
                   </div>
                   <% } %>
                 </div>
