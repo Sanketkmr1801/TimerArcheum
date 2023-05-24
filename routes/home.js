@@ -79,7 +79,8 @@ router.get("/home", ensureAuthenticated, async (req, res) => {
           lands: user.land,
           benchPriority,
           totalProduceDaily,
-          archeumToBsltRate
+          archeumToBsltRate,
+          archeumTaxes
         });
       } catch (error) {
         console.error(error);

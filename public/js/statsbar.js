@@ -68,3 +68,56 @@ function convertBsltToDollars() {
 conversionRateInput.addEventListener('input', convertBsltToDollars)
 
 convertBsltToDollars()
+
+// JavaScript for tab switching
+const fundsTab = document.getElementById('fundsTab');
+const ahTab = document.getElementById('ahTab');
+const fundsSection = document.getElementById('funds');
+const ahSection = document.getElementById('ah');
+
+fundsTab.addEventListener('click', function (event) {
+  event.preventDefault();
+  fundsTab.classList.add('active');
+  ahTab.classList.remove('active');
+  fundsSection.classList.add('show', 'active');
+  ahSection.classList.remove('show', 'active');
+});
+
+ahTab.addEventListener('click', function (event) {
+  event.preventDefault();
+  ahTab.classList.add('active');
+  fundsTab.classList.remove('active');
+  ahSection.classList.add('show', 'active');
+  fundsSection.classList.remove('show', 'active');
+});
+
+const archeumAmtInput = document.querySelector("#wrapArcheumAmount")
+const bsltAhRateInput = document.querySelector("#bsltAhRate")
+const totalBsltAmtInput = document.querySelector("#bsltAh")
+const radioGroup = document.querySelector('#archeumPerWrap');
+
+function calculateBsltAh() {
+    const wrapAmtInput = document.querySelector('input[name="groupah"]:checked')
+
+    const archeumAmt = archeumAmtInput.value
+    const bsltAhRate = bsltAhRateInput.value
+    const wrapAmt = wrapAmtInput.value
+
+    let totalBslt = 0
+    let boxes = Math.floor(archeumAmt / wrapAmt)
+    totalBslt = boxes * bsltAhRate
+
+    totalBsltAmtInput.value = totalBslt
+}
+radioGroup.addEventListener('change', function(event) {
+    // Get the selected radio button value
+    var selectedValue = event.target.value;
+  
+    // Use the selected value as needed
+    calculateBsltAh()
+  });
+
+archeumAmtInput.addEventListener('input', calculateBsltAh)
+bsltAhRateInput.addEventListener('input', calculateBsltAh)
+
+calculateBsltAh()

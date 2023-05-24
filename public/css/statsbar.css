@@ -41,6 +41,8 @@
     transition: border 0.3s ease;
     font-family: "Helvetica Neue", Arial, sans-serif;
     font-size: 90%;
+    margin: 0 5% 0 0;
+
 
 }
 .circle-input:hover {
@@ -60,3 +62,49 @@
     font-weight: bold;
 }
 
+.navbar-brand {
+    color: #9DB2BF !important;
+}
+
+#statsBarTabs {
+  display: flex !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  border: 1px solid transparent !important;
+}
+
+#statsBarTabs .nav-link {
+  flex-basis: 50% !important;
+  text-align: center !important;
+  transition: background-color 0.3s ease;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: #9DB2BF !important;
+}
+
+#statsBarTabs .nav-link:hover {
+  background-color: #DDE6ED !important;
+}
+
+#statsBarTabs .nav-link.active {
+  background-color: black !important;
+}
+
+#statsBarTabs .nav-item {
+    margin: 5% 0 0 0 !important;
+    padding: 0;
+    width: 50% !important;
+}
+
+.radio-group {
+    color: #DDE6ED !important;
+    font-weight: bold;
+    font-size: 90%;
+} 
+
+.label-radio {
+    color: #DDE6ED;
+    font-weight: bold;
+    font-size: 90%;
+    margin: 0 0 0 7% !important;
+}

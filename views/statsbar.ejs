@@ -28,47 +28,101 @@
     <!-- Navigation links -->
     <ul class="navbar-nav flex-column mt-4">
         <a class="navbar-brand" href="/home">Stats</a>
-        <div class="statDiv mb-3">
-            <li class="stat-item">
-                <%= totalProduceDaily / 1000 %>K Archeum / Day
+        <ul class="nav nav-tabs" id="statsBarTabs">
+            <li class="nav-item">
+                <a class="nav-link active" id="fundsTab" href="#funds">Funds</a>
             </li>
-            <li class="stat-item">
-                <%= Math.round(totalProduceDaily * archeumToBsltRate * 1000) / 1000 %> BSLT = 
-                <span class="dollar"></span> $ / Day
+            <li class="nav-item">
+                <a class="nav-link" id="ahTab" href="#ah">AH</a>
             </li>
-            <input type="text" value="<%= totalProduceDaily * archeumToBsltRate %>" style="display:none" class="bslt">
-        </div>
-        <div class="statDiv mb-3">
-            <li class="stat-item">
-                <%= Math.round(totalProduceDaily / 1000 * 7 * 1000) / 1000 %>K Archeum / Week
-            </li>
-            <li class="stat-item">
-                <%= totalProduceDaily * 7 * archeumToBsltRate %> BSLT = 
-                <span class="dollar"></span> $ / Week
-            </li>
-            <input type="text" value="<%= totalProduceDaily * 7 * archeumToBsltRate %>" style="display:none" class="bslt">
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="funds">
+              <!-- Content for Funds tab -->
+              <!-- Existing content from your code -->
+                <div class="statDiv mb-3">
+                    <li class="stat-item">
+                        <%= totalProduceDaily / 1000 %>K Archeum / Day
+                    </li>
+                    <li class="stat-item">
+                        <%= Math.round(totalProduceDaily * archeumToBsltRate * 1000) / 1000 %> BSLT = 
+                        <span class="dollar"></span> $ / Day
+                    </li>
+                    <input type="text" value="<%= totalProduceDaily * archeumToBsltRate %>" style="display:none" class="bslt">
+                </div>
+                <div class="statDiv mb-3">
+                    <li class="stat-item">
+                        <%= Math.round(totalProduceDaily / 1000 * 7 * 1000) / 1000 %>K Archeum / Week
+                    </li>
+                    <li class="stat-item">
+                        <%= totalProduceDaily * 7 * archeumToBsltRate %> BSLT = 
+                        <span class="dollar"></span> $ / Week
+                    </li>
+                    <input type="text" value="<%= totalProduceDaily * 7 * archeumToBsltRate %>" style="display:none" class="bslt">
+        
+                </div>
+                <div class="statDiv mb-3">
+                    <li class="stat-item">
+                        <%= Math.round((totalProduceDaily / 1000 * daysInMonth) * 100) / 100 %>K Archeum / Month
+                    </li>
+                    <li class="stat-item">
+                        <%= Math.round((totalProduceDaily * daysInMonth) * 100) / 100 * archeumToBsltRate %> BSLT = 
+                        <span class="dollar"></span> $ / Month
+                    </li>
+                    <input type="text" value="<%= Math.round((totalProduceDaily * daysInMonth) * 100) / 100 * archeumToBsltRate %>" style="display:none" class="bslt">
+        
+                </div>
+                <form action="#" class="d-flex justify-content-center align-items-center">
+                    <input type="text" class="circle-input text-center" value="0.25">
+                </form>
+                <div class="statDiv mb-3">
+                    <li class="stat-item">
+                        Labor Per Day = <%= Math.round(totalProduceDaily / 2) / 1000 %> K
+                    </li>
+                </div>
+                <div class="statDiv mb-3">
+                    <li class="stat-item">
+                        These are <strong>PROJECTED</strong> values if using the Fund Conversion.
+                    </li>
+                </div>
+            <!-- Add more navigation links here -->
+            </div>
+            <div class="tab-pane fade" id="ah">
+              <!-- Content for AH tab -->
 
-        </div>
-        <div class="statDiv mb-3">
-            <li class="stat-item">
-                <%= Math.round((totalProduceDaily / 1000 * daysInMonth) * 100) / 100 %>K Archeum / Month
-            </li>
-            <li class="stat-item">
-                <%= Math.round((totalProduceDaily * daysInMonth) * 100) / 100 * archeumToBsltRate %> BSLT = 
-                <span class="dollar"></span> $ / Month
-            </li>
-            <input type="text" value="<%= Math.round((totalProduceDaily * daysInMonth) * 100) / 100 * archeumToBsltRate %>" style="display:none" class="bslt">
+            <div class="statDiv mb-3">
+                <div class="stat-item">Archeum AH taxes</div>
+                <div class="stat-item">Archeum : tax</div>
+                <% for(let key in archeumTaxes) { %>
+                    <li class="stat-item"><%= key %> : <%= archeumTaxes[key] %></li>
+                <% } %>
 
+            </div>
+            <form action="#" class="d-flex justify-content-center align-items-center mb-3">
+                <label class="label-radio" for="wrapArcheumAmount">Archeum Amount</label>
+                <input type="text" class="circle-input text-center" placeholder="Archeum" id="wrapArcheumAmount" value="100000">
+            </form>
+            <form action="#" class="d-flex justify-content-center align-items-center mb-3">
+                <label for="bsltAhRate" class="label-radio">Bslt Auction Rate</label>
+                <input type="text" class="circle-input text-center" placeholder="Bslt AH" id="bsltAhRate" value="63">
+            </form>
+            <form action="#" class="d-flex justify-content-center align-items-center mb-3">
+                <label for="bsltAh" class="label-radio">Total Bslt Amt</label>
+                <input type="text" class="circle-input text-center" placeholder="Output" id="bsltAh" readonly>
+            </form>
+            <form action="#" class="d-flex justify-content-center align-items-center mb-3">
+                <div class="radio-group" id="archeumPerWrap">
+                    <label for="10k">10K</label>
+                    <input type="radio" name="groupah" value="10000" checked id="10k">
+                    <label for="5k">5K</label>
+                    <input type="radio" name="groupah" value="5000" id="5k">
+                </div>
+            </form>
+
+              <!-- Add different stats bar or modify content as needed -->
+            </div>
         </div>
-        <form action="#" class="d-flex justify-content-center align-items-center">
-            <input type="text" class="circle-input text-center" value="0.25">
-        </form>
-        <div class="statDiv mb-3">
-            <li class="stat-item">
-                Labor Per Day = <%= Math.round(totalProduceDaily / 2) / 1000 %> K
-            </li>
-        </div>
-        <!-- Add more navigation links here -->
+
     </ul>
 </nav>
 <!-- Add your content here -->

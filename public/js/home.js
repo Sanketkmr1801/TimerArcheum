@@ -53,7 +53,6 @@ for(let radio of radios) {
 //   radio.style.backgroundColor = color
 
 // }
-console.log(resourceInput[selectedRadio])
 buttonContainer.innerHTML = ""
 for(let i = 0; i < resourceInput[selectedRadio].length; i++) {
     let resource = resourceInput[selectedRadio][i]
@@ -149,35 +148,71 @@ function updateResources() {
         resource.innerHTML += `<option value=${i}>${resourceValues[i]}</option>`
     }
 }
+let isPingSoundPlaying = false
 // Function to update and remove expired timers
 function updateTimers() {
     let currentTime = Date.now();
-    let durations = document.querySelectorAll(".duration")
-    let startTimes = document.querySelectorAll(".startTime")
-    let remainingTimes = document.querySelectorAll(".remainingTime")
-    let endTimes = document.querySelectorAll(".endTime")
-    for(let i = 0; i < remainingTimes.length; i++) {
-        let card = remainingTimes[i].parentElement.parentElement
-        let startTime = Number(startTimes[i].textContent)
-        let remainingTime = (currentTime - startTime) / (1000)
+    let durations = document.querySelectorAll(".duration");
+    let startTimes = document.querySelectorAll(".startTime");
+    let remainingTimes = document.querySelectorAll(".remainingTime");
+    let endTimes = document.querySelectorAll(".endTime");
+    
 
-        let seconds = Math.floor(remainingTime % 60)
-        let minutes = Math.floor((remainingTime % 3600) / 60)
-        let hours = Math.floor(remainingTime / 3600)
-        if(card) {
-            let duration = durations[i].textContent.split(" ")[0]
-            console.log(remainingTime, duration) 
-            if(hours >= duration) {
-                card.classList.remove("card-green")
-                card.classList.add("card-red")
-            }
+
+    for (let i = 0; i < remainingTimes.length; i++) {
+      let card = remainingTimes[i].parentElement.parentElement;
+    
+      if (card.classList.contains('card-red')) {
+        remainingTimes[i].outerHTML = `<div class="remainingTime">${durations[i].textContent.split(" ")[0]}:00:00</div>`;
+        continue;
+      }
+      
+      let startTime = Number(startTimes[i].textContent);
+      let remainingTime = (currentTime - startTime) / 1000;
+      
+      let seconds = Math.floor(remainingTime % 60);
+      let minutes = Math.floor((remainingTime % 3600) / 60);
+      let hours = Math.floor(remainingTime / 3600);
+      
+      if (card) {
+        let duration = durations[i].textContent.split(" ")[0];
+        if (hours >= duration) {
+          card.classList.remove("card-green");
+          card.classList.add("card-red");
+          let land = remainingTimes[i].children[0].value
+          let house = remainingTimes[i].children[1].value
+          let bench = remainingTimes[i].children[2].value
+          showNotification(land, house, bench)
         }
-        // console.log(i, startTime, currentTime)
-        remainingTimes[i].outerHTML = `<div class="remainingTime">${hours}:${minutes}:${seconds}</div>`
+      }
+      
+      remainingTimes[i].outerHTML = `<div class="remainingTime">${hours}:${minutes}:${seconds}</div>`;
     }
     
     setTimeout(updateTimers, 1000); // Run the update every second
-}
+  }
+  
+  function playNotificationSound() {
+    let audio = new Audio('./audio/ping.mp3');
+    audio.play();
+  }
+  
+  function showNotification(land, house, bench) {
+    if (Notification.permission === 'granted') {
+      new Notification('Timer Finished', {
+        body: `${bench} at ${land} of ${house}`,
+      });
+    } else if (Notification.permission !== 'denied') {
+      Notification.requestPermission().then(function (permission) {
+        if (permission === 'granted') {
+          new Notification('Timer Finished', {
+            body: `${bench} at land ${land} house ${house}`,
+          });
+        }
+      });
+    }
+  }
+  
 
 function hideElements() {
 let endTimes = document.querySelectorAll(".endTime")
@@ -225,3 +260,4 @@ retainAddTimerInputs()
 updateTimers()
 updateAddTimerButton()
 
+// document.addEventListener('click', playPingSound)

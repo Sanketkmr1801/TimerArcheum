@@ -9,7 +9,7 @@
 </head>
 <body>
     <%- include('./navbar') %>
-    <%- include('./statsbar', {totalProduceDaily: totalProduceDaily, archeumToBsltRate: archeumToBsltRate}) %>
+    <%- include('./statsbar', {totalProduceDaily: totalProduceDaily, archeumToBsltRate: archeumToBsltRate, archeumTaxes: archeumTaxes}) %>
   
     <!-- Add the "+" button to trigger the modal -->
     <button id="modalTimerBtn" class="btn fixed-top-right" data-bs-toggle="modal" data-bs-target="#timerModal">+</button>
@@ -120,7 +120,11 @@
                     <div class="duration"><%= timer["duration"] %> H</div>
                     <div class="startTime"><%= timer["startTime"] %></div>
                     <div class="endTime"><%= timer["endTime"] %></div>
-                    <div class="remainingTime"><%= (timer["endTime"] - timer["startTime"]) / (60 * 1000) %></div>
+                    <div class="remainingTime"><%= (timer["endTime"] - timer["startTime"]) / (60 * 1000) %>
+                      <input type="text" value="<%= land %>" style="display: none;">  
+                      <input type="text" value="<%= house %>" style="display: none;">  
+                      <input type="text" value="<%= Object.keys(benchPriority)[timer["bench"]] %>" style="display: none;">  
+                    </div>
                   </div>
                 </div>
               </div>

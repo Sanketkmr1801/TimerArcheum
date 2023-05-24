@@ -1,3 +1,4 @@
+
 express = require("express")
 app = express()
 const { urlencoded } = require("body-parser");
@@ -5,6 +6,7 @@ const bodyParser = require("body-parser");
 const session = require('express-session');
 const User = require("./models/user")
 const Timer = require("./models/timer")
+
 const mongoose = require("mongoose")
 
 
@@ -49,6 +51,11 @@ resourceInput = {
     "blue": [1000, 2000, 4000],
     "arcane": [1750, 3500, 6960],
     "heroic": [3160, 6320, 12640]
+}
+
+archeumTaxes = {
+    10000: 600,
+    5000: 400
 }
 mongoose.connect('mongodb://127.0.0.1:27017/ArcheumTimer', {
     useNewUrlParser: true,
