@@ -182,7 +182,7 @@ function updateTimers() {
           let land = remainingTimes[i].children[0].value
           let house = remainingTimes[i].children[1].value
           let bench = remainingTimes[i].children[2].value
-          showNotification(land, house, bench)
+          // showNotification(land, house, bench)
         }
       }
       
@@ -190,29 +190,52 @@ function updateTimers() {
     }
     
     setTimeout(updateTimers, 1000); // Run the update every second
-  }
-  
-  function playNotificationSound() {
-    let audio = new Audio('./audio/ping.mp3');
-    audio.play();
-  }
-  
-  function showNotification(land, house, bench) {
-    if (Notification.permission === 'granted') {
-      new Notification('Timer Finished', {
-        body: `${bench} at ${land} of ${house}`,
-      });
-    } else if (Notification.permission !== 'denied') {
-      Notification.requestPermission().then(function (permission) {
-        if (permission === 'granted') {
-          new Notification('Timer Finished', {
-            body: `${bench} at land ${land} house ${house}`,
-          });
-        }
-      });
+}
+
+const notificationIgnoreList = new Set()
+
+function updateNotifications() {
+  const lands = document.querySelectorAll(".landBorder")
+  for(let land of lands) {
+    if(notificationIgnoreList.has(land.id)) continue
+    const cards = land.querySelectorAll(".card")
+    const isNotification = true
+    for(let card of cards) {
+      if(!card.classList.contains("card-red")) {
+        isNotification = false
+        break
+      }
+    }
+    if(isNotification) {
+      showNotification(land.id)
+      notificationIgnoreList.add(land.id)
     }
   }
-  
+
+  setTimeout(updateNotifications, 1000)
+} 
+
+function playNotificationSound() {
+  let audio = new Audio('./audio/ping.mp3');
+  audio.play();
+}
+
+function showNotification(land, house, bench) {
+  if (Notification.permission === 'granted') {
+    new Notification('Timer Finished', {
+      body: `Timers at ${land} are finished`,
+    });
+  } else if (Notification.permission !== 'denied') {
+    Notification.requestPermission().then(function (permission) {
+      if (permission === 'granted') {
+        new Notification('Timer Finished', {
+          body: `Timers at land ${land} are finished`,
+        });
+      }
+    });
+  }
+}
+
 
 function hideElements() {
 let endTimes = document.querySelectorAll(".endTime")
@@ -259,5 +282,5 @@ timerOverlayDisplay()
 retainAddTimerInputs()
 updateTimers()
 updateAddTimerButton()
-
+updateNotifications()
 // document.addEventListener('click', playPingSound)

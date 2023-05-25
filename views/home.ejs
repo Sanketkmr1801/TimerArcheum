@@ -31,7 +31,7 @@
     </div>
     <div class="container">
       <% for (let land in arrangedTimers) { %>
-        <div class="landBorder">
+        <div class="landBorder" id="<%= land %>">
         <form action="/deleteLand" method="POST">
           <input type="text" name="land" value="<%= land %>" style="display:none">
           <button class="cross btn">&#10005;</button>
