@@ -199,7 +199,7 @@ function updateNotifications() {
   for(let land of lands) {
     if(notificationIgnoreList.has(land.id)) continue
     const cards = land.querySelectorAll(".card")
-    const isNotification = true
+    let isNotification = true
     for(let card of cards) {
       if(!card.classList.contains("card-red")) {
         isNotification = false

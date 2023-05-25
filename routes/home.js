@@ -39,14 +39,18 @@ router.get("/home", ensureAuthenticated, async (req, res) => {
         const isAddTimer = req.query.addTimer;
         const email = req.user.email;
         const timers = await Timer.find({ userEmail: req.user.email }).sort({bench: -1, duration: -1});
-        const user = await User.findOne({email: email})
+        let user = await User.findOne({email: email})
         // Arrange timers into an object
         if(!user) {
             newUser = new User({
                 email: email
             })
+            console.log("NEW USER ENTERING ", email)
+
             await newUser.save()
+
             user = newUser
+            console.log(newUser)
         }
         const arrangedTimers = {};
         for(let land in user.land) {

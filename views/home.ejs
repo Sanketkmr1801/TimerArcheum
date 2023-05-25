@@ -101,7 +101,8 @@
               </div>
 
             <% for (let timer of arrangedTimers[land][house]) { %>
-              <div class="col-md-1">
+              <% if(timer) { %>
+                <div class="col-md-1">
                 <div class="card card-green mb-3 position-relative">
                   <div class="overlay"></div>
                   <div class="card-header black-text bench d-flex align-items-center justify-content-center" style="background-color:<%= benchColors[Object.keys(benchPriority)[timer.bench]] %>">
@@ -109,6 +110,7 @@
                     <form action="/updateTimer" method="POST">
                       <input type="text" name="timerID" value="<%= timer["_id"] %>" style="display:none">
                       <input type="text" name="duration" value="<%= timer["duration"] %>" style="display:none">
+                      <input type="text" name="land" value="<%= timer["land"] %>" style="display:none">
                       <button class="btn update-button">&#10227;</button>
                     </form>
                     <form action="/deleteTimer" method="POST">
@@ -128,6 +130,7 @@
                   </div>
                 </div>
               </div>
+              <% } %>
             <% } %>
           </div>
         </div>

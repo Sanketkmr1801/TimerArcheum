@@ -5,6 +5,8 @@ const bodyParser = require("body-parser");
 const session = require('express-session');
 const User = require("../models/user")
 const Timer = require("../models/timer")
+const Notification = require("../models/notification")
+
 const mongoose = require("mongoose")
 
 function ensureAuthenticated(req, res, next) {
@@ -61,6 +63,10 @@ router.post("/updateHouse", ensureAuthenticated, async (req, res) => {
         await Timer.updateMany(
             {userEmail: email, land: land, house: house},
             {$set: {startTime: currentTime, endTime: currentTime + duration * 60 * 1000}}
+        )
+        await Notification.updateOne(
+            {email: email, land: land},
+            {$set: {isNotifyableDiscord: 1, isNotifyableWeb: 1}}
         )
         res.redirect("/home")
     } catch(err) {

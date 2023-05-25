@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const session = require('express-session');
 const User = require("../models/user")
 const Timer = require("../models/timer")
+const Notification = require("../models/notification")
 const mongoose = require("mongoose")
 
 
@@ -47,6 +48,10 @@ router.post("/addTimer", ensureAuthenticated, async (req, res) => {
     try {
         const savedTimer = await newTimer.save();
         console.log('New timer added:', savedTimer);
+        await Notification.updateOne(
+            {email: email, land: land},
+            {$set: {isNotifyableDiscord: 1, isNotifyableWeb: 1}}
+        )
       } catch (error) {
         console.error('Error adding timer:', error);
       }
@@ -62,8 +67,9 @@ router.post("/deleteTimer", ensureAuthenticated, async (req, res) => {
     res.redirect('/home');
 })
 
-router.post("/updateTimer", ensureAuthenticated, (req, res) => {
-    const { timerID, duration } = req.body
+router.post("/updateTimer", ensureAuthenticated, async (req, res) => {
+    const { timerID, duration, land } = req.body
+    const email = req.user.email
     Timer.updateOne(
         {_id: timerID},
         {$set: {startTime: Date.now(), endTime: Date.now() + duration * 60 * 1000}}
@@ -71,6 +77,10 @@ router.post("/updateTimer", ensureAuthenticated, (req, res) => {
         console.log(err)
         res.render("error", {err})
     })
+    await Notification.updateOne(
+        {email: email, land: land},
+        {$set: {isNotifyableDiscord: 1, isNotifyableWeb: 1}}
+    )
     res.redirect("/home")
 })
 

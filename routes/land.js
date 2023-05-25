@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const session = require('express-session');
 const User = require("../models/user")
 const Timer = require("../models/timer")
+const Notification = require("../models/notification")
 const mongoose = require("mongoose")
 
 function ensureAuthenticated(req, res, next) {
@@ -49,6 +50,10 @@ router.post("/deleteLand", ensureAuthenticated, async (req, res) => {
             {email: email},
             {$unset: {[`land.${land}`]: 1}}
         )
+        const deletedNotifications = await Notification.deleteMany({
+            email: email,
+            land: land
+        })
         res.redirect("/home")
     } catch(err) {
         res.render("error", err)

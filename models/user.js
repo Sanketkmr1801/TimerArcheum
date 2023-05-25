@@ -13,6 +13,10 @@ const userSchema = new mongoose.Schema({
     },
     wallet: {
         type: String,
+    },
+    discordID: {
+        type: String,
+        default: null
     }
     // Other user data fields
 });
