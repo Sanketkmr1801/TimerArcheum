@@ -30,6 +30,13 @@ router.post("/addLand", ensureAuthenticated, async (req, res) => {
             { email: email },
             { $set: { [`land.${land}`]: null } },
         );
+        const newNotification = new Notification({
+            email: email,
+            land: land,
+            isNotifyableDiscord: 1,
+            isNotifyableWeb: 1
+        })
+        await newNotification.save()
         res.redirect("/home");
     } catch (error) {
         console.error(error);

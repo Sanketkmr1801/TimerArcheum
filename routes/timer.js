@@ -49,7 +49,7 @@ router.post("/addTimer", ensureAuthenticated, async (req, res) => {
         const savedTimer = await newTimer.save();
         console.log('New timer added:', savedTimer);
         await Notification.updateOne(
-            {email: email, land: land},
+            {email: userEmail, land: land},
             {$set: {isNotifyableDiscord: 1, isNotifyableWeb: 1}}
         )
       } catch (error) {
