@@ -61,12 +61,31 @@ for(let i = 0; i < resourceInput[selectedRadio].length; i++) {
 }
 }
 
+const serverStartTime = parseInt(document.querySelector("#serverStartTime").value)
+let clientTimeTicker = 0
+
+console.log(serverStartTime)
+
 function retainAddTimerInputs() {
             // Store the modal inputs in variables
 let houseInput = document.querySelector("#house");
 let benchInput = document.querySelector("#bench");
 let resourceInput = document.querySelector("#resource");
 let landInput = document.querySelector("#land")
+let refreshButtons = document.querySelectorAll(".refresh-house")
+
+for(let button of refreshButtons) {
+  button.addEventListener('click', (event) => {
+    let notifiedLands = JSON.parse(localStorage.getItem("notifiedLands"))
+
+    let land = button.id.split("refreshButton")[1]
+    if(notifiedLands && land) {
+      notifiedLands = notifiedLands.filter(ele => ele != land)
+      localStorage.setItem("notifiedLands", JSON.stringify(notifiedLands))
+    }
+  })
+}
+
 // Function to populate the modal inputs with the stored values
 function populateModalInputs() {
     // Check if there are stored values
@@ -151,7 +170,9 @@ function updateResources() {
 let isPingSoundPlaying = false
 // Function to update and remove expired timers
 function updateTimers() {
-    let currentTime = Date.now();
+    let currentTime = serverStartTime + clientTimeTicker * 1000
+    console.log("Current Time: " + currentTime)
+    clientTimeTicker += 1
     let durations = document.querySelectorAll(".duration");
     let startTimes = document.querySelectorAll(".startTime");
     let remainingTimes = document.querySelectorAll(".remainingTime");
@@ -194,26 +215,55 @@ function updateTimers() {
 
 const notificationIgnoreList = new Set()
 
+
 function updateNotifications() {
+  function addNotifiedLand(land) {
+    if(!localStorage.getItem("notifiedLands")) {
+      const notifiedLands = [land]
+      localStorage.setItem("notifiedLands", JSON.stringify(notifiedLands))
+    } else {
+      const notifiedLands = JSON.parse(localStorage.notifiedLands)
+      notifiedLands.push(land)
+      localStorage.setItem("notifiedLands", JSON.stringify(notifiedLands))
+    }
+  }
+  
+  function fetchNotifiedLand() {
+    const notifiedLands = localStorage.getItem("notifiedLands")
+    return JSON.parse(notifiedLands)
+  }
   const lands = document.querySelectorAll(".landBorder")
   for(let land of lands) {
     if(notificationIgnoreList.has(land.id)) continue
     const cards = land.querySelectorAll(".card")
     let isNotification = true
+    if(cards.length == 0) continue
     for(let card of cards) {
       if(!card.classList.contains("card-red")) {
         isNotification = false
         break
       }
     }
+    const notifiedLands = fetchNotifiedLand()
     if(isNotification) {
-      showNotification(land.id)
-      notificationIgnoreList.add(land.id)
+      if(!notifiedLands) {
+        showNotification(land.id)
+        notificationIgnoreList.add(land.id)
+        addNotifiedLand(land.id)
+      } else {
+        if(!notifiedLands.includes(land.id)) {
+          showNotification(land.id)
+          notificationIgnoreList.add(land.id)
+          addNotifiedLand(land.id)
+        }
+      }
+
     }
   }
 
   setTimeout(updateNotifications, 1000)
 } 
+
 
 function playNotificationSound() {
   let audio = new Audio('./audio/ping.mp3');

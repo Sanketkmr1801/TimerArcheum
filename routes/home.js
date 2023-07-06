@@ -74,6 +74,8 @@ router.get("/home", ensureAuthenticated, async (req, res) => {
             }
         }
         const archeumToBsltRate = 0.006
+        const serverStartTime = Date.now()
+        console.log(serverStartTime)
         res.render("home", {
           houses,
           arrangedTimers,
@@ -84,7 +86,8 @@ router.get("/home", ensureAuthenticated, async (req, res) => {
           benchPriority,
           totalProduceDaily,
           archeumToBsltRate,
-          archeumTaxes
+          archeumTaxes,
+          serverStartTime
         });
       } catch (error) {
         console.error(error);
