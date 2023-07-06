@@ -59,7 +59,7 @@ archeumTaxes = {
     10000: 600,
     5000: 400
 }
-mongoose.connect(`mongodb://127.0.0.1:27017/ArcheumTimer`, {
+mongoose.connect(`mongodb+srv://Scriz:${mongoPass}@cluster0.pxvtkxw.mongodb.net/?retryWrites=true&w=majority`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
