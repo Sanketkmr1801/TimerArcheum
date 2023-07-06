@@ -25,7 +25,7 @@ router.get("/land", ensureAuthenticated, async (req, res) => {
         return
     }
 
-    res.render("/link")
+    res.redirect("/link")
 })
 
 router.post("/land", ensureAuthenticated, (req, res) => {
@@ -42,7 +42,7 @@ router.get("/token", ensureAuthenticated, async (req, res) => {
         return
     }
 
-    res.render("/link")
+    res.redirect("/link")
 })
 
 router.get("/link", ensureAuthenticated, async (req, res) => {
@@ -54,7 +54,7 @@ router.get("/link", ensureAuthenticated, async (req, res) => {
         res.render("link", {walletID})
         return
     }
-    res.render("link")
+    res.render("link", {walletID: ""})
 })
 
 router.post("/link", ensureAuthenticated, async (req, res) => {

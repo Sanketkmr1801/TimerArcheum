@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const session = require('express-session');
 const User = require("./models/user")
 const Timer = require("./models/timer")
+const path = require("path")
 
 const mongoose = require("mongoose")
 const dotenv = require('dotenv');
@@ -58,7 +59,7 @@ archeumTaxes = {
     10000: 600,
     5000: 400
 }
-mongoose.connect(`mongodb+srv://Scriz:${mongoPass}@cluster0.pxvtkxw.mongodb.net/?retryWrites=true&w=majority`, {
+mongoose.connect(`mongodb://127.0.0.1:27017/ArcheumTimer`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
@@ -109,6 +110,7 @@ passport.deserializeUser((user, done) => {
 timeIntervals = [3, 6, 12]
 
 app.set('view engine', 'ejs')
+app.set('views', path.join(__dirname, 'views'))
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(passport.initialize());
 app.use(passport.session());
